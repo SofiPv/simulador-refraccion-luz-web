@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Refracción de la Luz</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"]],
+        displayMath: [["\\[", "\\]"]]
+      },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <p class="eyebrow">Física · Óptica geométrica</p>
+    <h1>Simulador de Refracción de la Luz</h1>
+    <p>
+      Web app didáctica para visualizar la Ley de Snell, modificar medios,
+      calcular ángulos, detectar reflexión total interna y comparar datos experimentales.
+    </p>
+  </header>
+
+  <main class="layout">
+    <aside class="card controls-panel">
+      <h2>Parámetros</h2>
+
+      <label>
+        Medio de incidencia
+        <select id="mediumOneSelect"></select>
+      </label>
+
+      <label>
+        Índice n₁
+        <input id="nOneInput" type="number" step="0.0001" value="1.33" />
+      </label>
+
+      <label>
+        Medio de refracción
+        <select id="mediumTwoSelect"></select>
+      </label>
+
+      <label>
+        Índice n₂
+        <input id="nTwoInput" type="number" step="0.0001" value="1.0003" />
+      </label>
+
+      <label>
+        Ángulo de incidencia θ₁
+        <input id="angleSlider" type="range" min="0" max="89" value="30" />
+        <span id="angleValue">30°</span>
+      </label>
+
+      <div class="button-row">
+        <button id="simulateBtn" type="button">Simular</button>
+        <button id="swapBtn" type="button" class="secondary">Intercambiar medios</button>
+        <button id="downloadBtn" type="button" class="secondary">Descargar resumen</button>
+      </div>
+
+      <section class="info-box">
+        <h3>Ley de Snell</h3>
+        <div class="math-box">
+          \[
+            n_1\sin(\theta_1)=n_2\sin(\theta_2)
+          \]
+        </div>
+      </section>
+
+      <section class="info-box">
+        <h3>Resultado</h3>
+        <ul id="resultList"></ul>
+      </section>
+    </aside>
+
+    <section class="card simulation-card">
+      <canvas id="refractionCanvas" width="980" height="680" aria-label="Simulación de rayo incidente y refractado"></canvas>
+    </section>
+
+    <section class="card explanation-card">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Experimentos</p>
+          <h2>Fenómenos observables</h2>
+        </div>
+      </div>
+
+      <div class="experiment-grid">
+        <article>
+          <h3>Lápiz o pajita en agua</h3>
+          <p>
+            Cuando el objeto entra oblicuamente al agua, parece quebrarse porque los rayos cambian de dirección al pasar de un medio a otro.
+          </p>
+        </article>
+
+        <article>
+          <h3>Moneda en vaso</h3>
+          <p>
+            Al agregar agua, la luz reflejada por la moneda se desvía y puede llegar al ojo; por eso la moneda parece aparecer más arriba.
+          </p>
+        </article>
+
+        <article>
+          <h3>T sumergible</h3>
+          <p>
+            Permite medir ángulos de incidencia y refracción para comparar experimentalmente el cociente de senos con la relación de índices.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="section-header">
+        <div>
+          <p class="section-label">Datos experimentales</p>
+          <h2>Tabla de rayos medidos</h2>
+        </div>
+        <button id="copyTableBtn" type="button" class="secondary compact">Copiar tabla</button>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Rayo</th>
+              <th>α incidencia</th>
+              <th>γ refracción</th>
+              <th>sen α</th>
+              <th>sen γ</th>
+              <th>sen α / sen γ</th>
+              <th>Comparación</th>
+            </tr>
+          </thead>
+          <tbody id="experimentalTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card concepts-card">
+      <p class="section-label">Conceptos</p>
+      <h2>Lectura rápida</h2>
+
+      <div class="concept-grid">
+        <article>
+          <h3>Índice de refracción</h3>
+          <p>
+            Representa la relación entre la velocidad de la luz en el vacío y la velocidad de la luz en un medio transparente.
+          </p>
+        </article>
+
+        <article>
+          <h3>Normal</h3>
+          <p>
+            Es la línea perpendicular a la superficie de separación entre los medios. Los ángulos se miden respecto a ella.
+          </p>
+        </article>
+
+        <article>
+          <h3>Medio más refringente</h3>
+          <p>
+            Tiene mayor índice de refracción. Si la luz entra a un medio más refringente, el rayo se acerca a la normal.
+          </p>
+        </article>
+
+        <article>
+          <h3>Reflexión total interna</h3>
+          <p>
+            Ocurre cuando la luz pasa de mayor índice a menor índice y el ángulo de incidencia supera el ángulo crítico.
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Proyecto de portafolio desarrollado con HTML, CSS, JavaScript, Canvas y MathJax.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
